@@ -9,7 +9,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 
 // require our database models
-// const db = require("./models");
+const db = require("./models");
 
 // set up local host port
 let PORT = 3000;
@@ -22,10 +22,10 @@ const app = express();
 app.engine(
     "handlebars",
     exphbs({
-      defaultLayout: "main",
+        defaultLayout: "main",
     })
-  );
-  
+);
+
 app.set("view engine", "handlebars");
 
 
@@ -40,39 +40,85 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // connect to the mongo DB
-
 // deplyed version: using local version for testing app
-// const MONGOOSE_URI = process.env.MONGOOSE_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.connect("mongodb://localhost/mongoHeadlines", { useUnifiedTopology: true });
-
-// axios get method to scrape data and send back to client
-
+mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
+const MONGOOSE_URI = process.env.MONGOOSE_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.connect(MONGOOSE_URI);
 
 
 
 // start the server
-app.listen(PORT, function(){
+app.listen(PORT, function () {
     console.log("Application running @ http://localhost:" + PORT);
 })
 
 
-// get the root route and load handlebars home template
-app.get("/", function(req, res){
+// get the web scraped data in scrape route, create db collection
+app.get("/scrape", function (req, res) {
+
+    axios.get("https://theundefeated.com/sports/").then(function (response) {
+
+        const $ = cheerio.load(response.data);
+
+        console.log($);
+
+
+
+        $("section").each(function (i, ele) {
+
+            let result = {};
+
+            result.title = $(this).find(".heading").text();
+            result.body = $(this).find(".subheading").text();
+            result.link = $(this).find(".heading").parent('a').attr('href');
+
+            console.log(result);
+            // res.json(result);
+
+
+            // create our db collection
+            db.Article.create(result).then(function(dbArticle) {
+                console.log(dbArticle);
+            }).catch(function (err) {
+                console.log(err);
+            });
+
+
+        });
+
+
+
+    }).catch(function(err){
+        console.log(err);
+    });
+
+
+    res.json("scrape complete");
+
+
+
+
+});
+
+
+// get all articles from db here
+app.get("/", function (req, res) {
 
 
     // load index.handlebars file at root window
     res.render("home");
-    
 
 });
 
-// get the saved route and load handlebars saved template
-app.get("/saved", function(req, res){
 
-    
+
+// get the saved route and load handlebars saved template
+app.get("/saved", function (req, res) {
+
+
     // load index.handlebars file at root window
     res.render("saved");
-    
+
 
 });
 
