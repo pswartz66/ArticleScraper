@@ -104,9 +104,18 @@ app.get("/scrape", function (req, res) {
 // get all articles from db here
 app.get("/", function (req, res) {
 
+    db.Article.find().then(function(dbData){
+        const hbsObject = {
+            articles: dbData
+        };
 
-    // load index.handlebars file at root window
-    res.render("home");
+        // load index.handlebars file at root window
+        res.render("home", hbsObject);
+
+    }).catch(function(err){
+        console.log(err);
+    });
+
 
 });
 

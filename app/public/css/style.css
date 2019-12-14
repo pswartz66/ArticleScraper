@@ -3,11 +3,16 @@
 
 .background-image {
     
-    
+
     background-image: url(./images/espn-img.jpg);
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
 
+}
+
+
+.card-wrapper {
+    margin: 0 4px 0 4px;
 }

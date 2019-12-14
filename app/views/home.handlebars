@@ -51,12 +51,12 @@
 
     <div class="jumbotron text-center">
 
-        
+
         <div class="background-image"></div>
 
         <div class="title">
             <h1>Mongo Sports Scraper</h1>
-            <p>ESPN Edition</p>
+            <p>The Undefeated Edition</p>
         </div>
 
 
@@ -65,17 +65,19 @@
 
     <div class="container">
 
-        <div class="burger-names" id="body-column" class="col-sm-6 col-md-6 col-lg-6">
-
-                <ol>
-                    {{#each articles}}
-				        {{"hello"}}
-				    {{/each}}
-
-                </ol>
-
+        {{#each articles}}
+        <div class="p-3 card-wrapper">
+            <div class="card" id={{_id}}>
+                <div class="card-header">
+                    <h4><strong>{{title}}</strong></h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{body}}</p>
+                    <a href={{link}} class="btn btn-primary">Go to article page</a>
+                </div>
             </div>
-
+        </div>
+        {{/each}}
 
     </div>
 
