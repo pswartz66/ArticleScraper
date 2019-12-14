@@ -3,6 +3,8 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const exphbs = require("express-handlebars");
+const path = require("path");
+
 
 // libs used for scraping
 const axios = require("axios");
@@ -37,7 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // make the public folder static
-app.use(express.static("public"));
+app.use('/public', express.static(path.join(__dirname + "/public")));
 
 // connect to the mongo DB
 // deplyed version: using local version for testing app
