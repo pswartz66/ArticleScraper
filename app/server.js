@@ -64,8 +64,6 @@ app.get("/scrape", function (req, res) {
 
         console.log($);
 
-
-
         $("section").each(function (i, ele) {
 
             let result = {};
@@ -73,6 +71,7 @@ app.get("/scrape", function (req, res) {
             result.title = $(this).find(".heading").text();
             result.body = $(this).find(".subheading").text();
             result.link = $(this).find(".heading").parent('a').attr('href');
+            result.saved = false;
 
             console.log(result);
             // res.json(result);
@@ -88,16 +87,14 @@ app.get("/scrape", function (req, res) {
 
         });
 
-
+        res.send("scrape complete");
 
     }).catch(function(err){
         console.log(err);
     });
 
 
-    res.json("scrape complete");
-
-
+    
 
 
 });
@@ -106,7 +103,8 @@ app.get("/scrape", function (req, res) {
 // get all articles from db here
 app.get("/", function (req, res) {
 
-    db.Article.find().then(function(dbData){
+    db.Article.find({}, function(err, dbData) {
+
         const hbsObject = {
             articles: dbData
         };
@@ -114,8 +112,9 @@ app.get("/", function (req, res) {
         // load index.handlebars file at root window
         res.render("home", hbsObject);
 
-    }).catch(function(err){
-        console.log(err);
+        /* if (err) {            
+            console.log(err);
+        } */
     });
 
 

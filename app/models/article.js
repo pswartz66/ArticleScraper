@@ -25,7 +25,8 @@ const ArticleSchema = new Schema({
 
     saved: {
         type: Boolean,
-        default: false
+        default: false,
+        required: true
     },
 
     // note field for joining notes to articles
