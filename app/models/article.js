@@ -23,6 +23,11 @@ const ArticleSchema = new Schema({
         required: true
     },
 
+    saved: {
+        type: Boolean,
+        default: false
+    },
+
     // note field for joining notes to articles
     note: {
         type: Schema.Types.ObjectId,
