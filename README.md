@@ -21,6 +21,6 @@ Be sure to run an npm install after cloning the repo
 
 ### Testing
 To test locally, run:
-mongod (in a separate command line window)
-nodemon server.js
+1. mongod (in a separate command line window)
+2. nodemon server.js
 
