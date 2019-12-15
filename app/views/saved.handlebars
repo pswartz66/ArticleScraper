@@ -46,7 +46,7 @@
 
     <div class="jumbotron text-center">
 
-        
+
         <div class="background-image"></div>
 
         <div class="title">
@@ -59,7 +59,34 @@
 
 
     <div class="container">
-
+        {{!-- {{#if articles}} --}}
+        {{#each articles}}
+        <div class="p-3 card-wrapper">
+            <div class="card" id={{_id}}>
+                <div class="d-flex flex-row card-header">
+                    <div class="col-lg-9 col-md-9 col-sm-9">
+                        <h4><strong>{{title}}</strong></h4>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <a id="article-notes" data-id={{_id}} class="btn">Article Notes</a>
+                        <a id="delete-saved" data-id={{_id}} class="btn">Delete from saved</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <a href={{link}} class="card-text">{{body}}</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        {{!-- {{else}}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>Uh Oh. Looks like we don't have any new articles.</h4>
+            </div>
+        </div>
+        {{/if}} --}}
 
 
     </div>

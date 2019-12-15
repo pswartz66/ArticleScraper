@@ -78,7 +78,7 @@ app.get("/scrape", function (req, res) {
 
 
             // create our db collection
-            db.Article.create(result).then(function(dbArticle) {
+            db.Article.create(result).then(function (dbArticle) {
                 console.log(dbArticle);
             }).catch(function (err) {
                 console.log(err);
@@ -89,12 +89,9 @@ app.get("/scrape", function (req, res) {
 
         res.send("scrape complete");
 
-    }).catch(function(err){
+    }).catch(function (err) {
         console.log(err);
     });
-
-
-    
 
 
 });
@@ -103,7 +100,7 @@ app.get("/scrape", function (req, res) {
 // get all articles from db here
 app.get("/", function (req, res) {
 
-    db.Article.find({}, function(err, dbData) {
+    db.Article.find({}, function (err, dbData) {
 
         const hbsObject = {
             articles: dbData
@@ -112,9 +109,6 @@ app.get("/", function (req, res) {
         // load index.handlebars file at root window
         res.render("home", hbsObject);
 
-        /* if (err) {            
-            console.log(err);
-        } */
     });
 
 
@@ -124,11 +118,27 @@ app.get("/", function (req, res) {
 
 // get the saved route and load handlebars saved template
 app.get("/saved", function (req, res) {
-
-
-    // load index.handlebars file at root window
-    res.render("saved");
-
-
+    db.Article.find({saved: true}, function (err, updatedDB) {
+        if (err) {
+            console.log(err)
+        } else {
+            const hbsObject = {
+                articles: updatedDB
+            };
+            // load saved.handlebars file at saved path
+            res.render("saved", hbsObject);
+        }
+    });
 });
 
+// update a saved article in the db, change saved: true
+app.post("/saved/:id", function (req, res) {
+    const savedArticleID = req.params.id;
+    db.Article.findOneAndUpdate({ _id: savedArticleID }, { saved: true }).then(function (err, updatedDB) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(updatedDB);
+        }
+    });
+});
