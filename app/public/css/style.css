@@ -16,20 +16,30 @@
 
 
 /* buttons */
-#save-article {
+.save-article {
     float: right;
     background-color: rgb(15, 189, 93);
     color: ghostwhite;
 }
 
-#article-notes {
+.save-article:hover {
+    cursor: pointer;
+}
+
+
+.article-notes {
     float: right;
     background-color: rgb(35, 20, 241);
     color: ghostwhite;
     padding: 4px;
     margin: 3px;
 }
-#delete-saved {
+
+.article-notes:hover {
+    cursor: pointer;
+}
+
+.delete-saved {
     float: right;
     background-color: rgb(214, 16, 43);
     color: ghostwhite;
@@ -37,12 +47,10 @@
     margin: 3px;
 
 }
-
-
-
-#save-article:hover {
+.delete-saved:hover {
     cursor: pointer;
 }
+
 
 .card-text {
     text-decoration: none!important;

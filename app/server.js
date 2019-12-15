@@ -133,8 +133,8 @@ app.get("/saved", function (req, res) {
 
 // update a saved article in the db, change saved: true
 app.post("/saved/:id", function (req, res) {
-    const savedArticleID = req.params.id;
-    db.Article.findOneAndUpdate({ _id: savedArticleID }, { saved: true }).then(function (err, updatedDB) {
+    let savedArticleID = req.params.id;
+    db.Article.updateOne({ _id: savedArticleID }, { saved: true }).then(function (err, updatedDB) {
         if (err) {
             console.log(err)
         } else {

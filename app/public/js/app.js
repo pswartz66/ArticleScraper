@@ -16,16 +16,23 @@ $(".scrape-btn").on("click", function(){
 });
 
 
-$("#save-article").on("click", function(){
+$(".save-article").on("click", function(){
+
+    event.preventDefault();
 
     let id = $(this).attr("data-id");
+
+    console.log(id);
 
     $.ajax({
         method: "POST",
         url: "/saved/" + id
-    }).then(function(data){
+    }).done(function(data){
         console.log(data);
-        location.reload();
+        window.location = "/"
     });
 
 });
+
+
+

@@ -68,7 +68,7 @@
         {{#if articles}}
         {{#each articles}}
         <div class="p-3 card-wrapper">
-            <div class="card" id={{_id}}>
+            <div class="card" {{!-- id={{this._id}} --}}>
                 <div class="d-flex flex-row card-header">
                     <div class="col-lg-9 col-md-9 col-sm-9">
                         <h4><strong>{{title}}</strong></h4>
@@ -76,7 +76,7 @@
                     <div class="col-lg-1 col-md-1 col-sm-1">
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2">
-                        <a id="save-article" data-id={{_id}} class="btn">Save Article</a>
+                        <button type="button" data-id={{this._id}} class="btn save-article">Save Article</button>
                     </div>
                 </div>
                 <div class="card-body">
