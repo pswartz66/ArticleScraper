@@ -61,3 +61,11 @@
     cursor: pointer;
 }
 
+.note-container {
+    padding-top: 8px;
+
+}
+
+.modal-body {
+    padding: 16px 0px 16px 0px!important;
+}
