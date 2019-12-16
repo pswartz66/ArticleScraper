@@ -69,3 +69,15 @@
 .modal-body {
     padding: 16px 0px 16px 0px!important;
 }
+
+#delete-note {
+    float: right;
+    width: 40px;
+    border-radius: 6px;
+    background-color: red;
+    color: white;
+}
+
+#delete-note:hover {
+    cursor: pointer;
+}

@@ -80,7 +80,7 @@ app.get("/scrape", function (req, res) {
 
             // create our db collection
             db.Article.create(result).then(function (dbArticle) {
-                console.log(dbArticle);
+                res.json(dbArticle);
             }).catch(function (err) {
                 console.log(err);
             });
@@ -127,7 +127,7 @@ app.get("/saved", function (req, res) {
             };
             // load saved.handlebars file at saved path
             res.render("saved", hbsObject);
-            console.log(hbsObject);
+            // console.log(hbsObject);
         }
     });
 });
@@ -137,7 +137,7 @@ app.post("/saved/:id", function (req, res) {
     let savedArticleID = req.params.id;
     db.Article.updateOne({ _id: savedArticleID }, { saved: true })
 
-        .populate("notes")
+        /* .populate("notes") */
         .then(function (err, updatedDB) {
             if (err) {
                 console.log(err)
@@ -184,12 +184,35 @@ app.post("/saved/notes/:id", function(req, res){
 
     db.Note.create(req.body).then(function(dbNote){
 
-        return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true});
+        // find id inside of Article collection and push the associated notes into the Article
+        return db.Article.update({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true});
+        // res.send(dbNote);
 
     }).catch(function(err){
         if(err) {
             console.log(err);
         }
     });
+
+})
+
+
+app.get("/saved/notes/:id", function(req, res) {
+
+    db.Article.findOne({_id: req.params.id})
+
+    .populate("notes")
+
+    .then(function(dbNotes){
+
+        console.log(dbNotes);
+
+        res.json(dbNotes);
+
+    }).catch(function(err){
+        if (err) {
+            console.log(err);
+        }
+    })
 
 })

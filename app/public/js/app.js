@@ -96,10 +96,53 @@ $(".save-note").on("click", function(){
 
     })
 
-    /* $("#new-note").val("");
-    $("#new-note").attr("placeholder", "New Note..."); */
     
 
 });
+
+
+$(document).on("click", ".article-notes", function(){
+
+
+    $(".note-container").empty();
+    $(".note-container").val("");
+
+    var thisId = $(this).attr("data-id");
+
+    $.ajax({
+        method: "GET",
+        url: "/saved/notes/"+thisId
+    })
+    
+        .then(function(data){
+
+            console.log(data.notes);
+
+            for (let i = 0; i < data.length; i++) {
+
+                let newLi = $("<li>");
+
+                newLi.addClass("list-group-item note"+data[i]._id);
+
+                newLi.text(data[i].note);
+
+                newLi.append("<button data-id='" + data[i]._id + "' id='delete-note'>X</button>");
+
+
+                $(".note-container").append(newLi);
+    
+
+            }
+            
+
+        })
+    
+        /* $(".new-note").val("");
+        $(".new-note").attr("placeholder", "New Note..."); */
+
+
+})
+
+
 
 
