@@ -23,6 +23,8 @@ const ArticleSchema = new Schema({
         required: true
     },
 
+    // saved criteria allows us to change the state of an article in the db
+    // used for getting saved articles back to front end saved template
     saved: {
         type: Boolean,
         default: false,
@@ -30,7 +32,7 @@ const ArticleSchema = new Schema({
     },
 
     // note field for joining notes to articles
-    note: {
+    notes: {
         type: Schema.Types.ObjectId,
         ref: "Note"
     }

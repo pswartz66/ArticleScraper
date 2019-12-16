@@ -1,0 +1,34 @@
+   
+        {{!-- Main modal --}}
+        <div class="modal fade" id="notes-modal{{this._id}}" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content container">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Article: {{this._id}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <hr>
+                    </div>
+                    <ul class="list-group note-container">
+
+                        <li class="list-group-item note">No notes for this article yet.</li>
+                        <li class="list-group-item note">{{this.notes}}</li>
+
+
+                    </ul>
+                        <button type="button" data-id={{this._id}} class="btn delete-note">Delete Note</button>
+
+                    <div id={{this._id}} class="modal-body">
+                        <form>
+                            <textarea placeholder="New Note..." id="" class="form-control new-note{{this._id}}" rows="5" cols="60"></textarea>
+                        </form>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button data-id={{this._id}} type="button" class="btn btn-primary save-note" data-dismiss="modal">Save Note</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>

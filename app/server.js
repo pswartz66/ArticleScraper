@@ -25,6 +25,7 @@ app.engine(
     "handlebars",
     exphbs({
         defaultLayout: "main",
+        partialsDir: path.join(__dirname, "/views/layouts/partials")
     })
 );
 
@@ -97,10 +98,10 @@ app.get("/scrape", function (req, res) {
 });
 
 
-// get all articles from db here
+// get all non-saved articles from db here
 app.get("/", function (req, res) {
 
-    db.Article.find({}, function (err, dbData) {
+    db.Article.find({saved: false}, function (err, dbData) {
 
         const hbsObject = {
             articles: dbData
@@ -110,7 +111,6 @@ app.get("/", function (req, res) {
         res.render("home", hbsObject);
 
     });
-
 
 });
 
@@ -127,6 +127,7 @@ app.get("/saved", function (req, res) {
             };
             // load saved.handlebars file at saved path
             res.render("saved", hbsObject);
+            console.log(hbsObject);
         }
     });
 });
@@ -134,11 +135,61 @@ app.get("/saved", function (req, res) {
 // update a saved article in the db, change saved: true
 app.post("/saved/:id", function (req, res) {
     let savedArticleID = req.params.id;
-    db.Article.updateOne({ _id: savedArticleID }, { saved: true }).then(function (err, updatedDB) {
+    db.Article.updateOne({ _id: savedArticleID }, { saved: true })
+
+        .populate("notes")
+        .then(function (err, updatedDB) {
+            if (err) {
+                console.log(err)
+            } else {
+                res.send(updatedDB);
+            }
+    });
+});
+
+
+// clear non-saved articles from db and send back to home template
+app.get("/cleared/non-saved", function (req, res) {
+    db.Article.remove({saved: false}, function (err, updatedDB) {
         if (err) {
             console.log(err)
         } else {
-            res.send(updatedDB);
+            const hbsObject = {
+                articles: updatedDB
+
+            };
+            // load saved.handlebars file at saved path
+            res.render("saved", hbsObject);
         }
     });
 });
+
+// clear saved articles from db and send back to home template
+app.get("/cleared/saved", function (req, res) {
+    db.Article.remove({saved: true}, function (err, updatedDB) {
+        if (err) {
+            console.log(err)
+        } else {
+            const hbsObject = {
+                articles: updatedDB
+            };
+            // load saved.handlebars file at saved path
+            res.render("saved", hbsObject);
+        }
+    });
+});
+
+// post the saved note in Note db, populate notes inside of Article db above
+app.post("/saved/notes/:id", function(req, res){
+
+    db.Note.create(req.body).then(function(dbNote){
+
+        return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true});
+
+    }).catch(function(err){
+        if(err) {
+            console.log(err);
+        }
+    });
+
+})
