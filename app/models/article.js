@@ -32,10 +32,12 @@ const ArticleSchema = new Schema({
     },
 
     // note field for joining notes to articles
-    notes: {
+    notes: [
+        {
         type: Schema.Types.ObjectId,
         ref: "Note"
-    }
+        }
+    ]
 
 })
 

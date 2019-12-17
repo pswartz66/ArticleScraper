@@ -79,9 +79,6 @@ $(".save-note").on("click", function(){
     let id = $(this).attr("data-id");
     let noteText = $(".new-note"+id).val();
 
-    console.log(id);
-    console.log(noteText);
-
     $.ajax({
         method: "POST",
         url: "/saved/notes/" + id,
@@ -91,16 +88,16 @@ $(".save-note").on("click", function(){
         }
     }).done(function(data){
 
-        console.log(data);
+        // console.log(data);
         window.location = "/saved"
 
     })
 
-    
-
 });
 
 
+
+// display saved notes inside modal
 $(document).on("click", ".article-notes", function(){
 
 
@@ -118,28 +115,18 @@ $(document).on("click", ".article-notes", function(){
 
             console.log(data.notes);
 
-            for (let i = 0; i < data.length; i++) {
-
+            for (let i = 0; i < data.notes.length; i++) {
                 let newLi = $("<li>");
-
-                newLi.addClass("list-group-item note"+data[i]._id);
-
-                newLi.text(data[i].note);
-
-                newLi.append("<button data-id='" + data[i]._id + "' id='delete-note'>X</button>");
-
-
+                newLi.addClass("list-group-item note"+data.notes[i]._id);
+                newLi.text(data.notes[i].note);
+                newLi.append("<button data-id='" + data.notes[i]._id + "' id='delete-note'>X</button>");
                 $(".note-container").append(newLi);
-    
-
             }
             
-
         })
     
         /* $(".new-note").val("");
         $(".new-note").attr("placeholder", "New Note..."); */
-
 
 })
 

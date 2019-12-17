@@ -179,23 +179,6 @@ app.get("/cleared/saved", function (req, res) {
     });
 });
 
-// post the saved note in Note db, populate notes inside of Article db above
-app.post("/saved/notes/:id", function(req, res){
-
-    db.Note.create(req.body).then(function(dbNote){
-
-        // find id inside of Article collection and push the associated notes into the Article
-        return db.Article.update({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true});
-        // res.send(dbNote);
-
-    }).catch(function(err){
-        if(err) {
-            console.log(err);
-        }
-    });
-
-})
-
 
 app.get("/saved/notes/:id", function(req, res) {
 
@@ -203,16 +186,39 @@ app.get("/saved/notes/:id", function(req, res) {
 
     .populate("notes")
 
-    .then(function(dbNotes){
+    .then(function(notes){
 
-        console.log(dbNotes);
+        console.log(notes);
 
-        res.json(dbNotes);
+        res.send(notes);
 
     }).catch(function(err){
         if (err) {
             console.log(err);
         }
     })
+
+})
+
+
+// post the saved note in Note db, populate notes inside of Article db above
+app.post("/saved/notes/:id", function(req, res){
+
+    console.log('article id:' +req.params.id);
+    db.Note.create(req.body).then(function(dbNote){
+
+        // find id inside of Article collection and push the associated notes into the Article
+        return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {notes: dbNote._id}}, {new: true});
+        
+
+    }).then(function(dbArticle){
+
+        res.json(dbArticle);
+
+    }).catch(function(err){
+        if(err) {
+            res.json(err);
+        }
+    });
 
 })
