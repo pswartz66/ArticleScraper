@@ -51,7 +51,7 @@ mongoose.connect(MONGOOSE_URI); */
 mongoose.Promise = global.Promise;
 mongoose.connect(
   
-    process.env.MONGOD_URI
+    process.env.MONGODB_URI
   
 );
 
