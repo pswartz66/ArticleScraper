@@ -14,7 +14,7 @@ const cheerio = require("cheerio");
 const db = require("./models");
 
 // set up local host port
-let PORT = 3000;
+let PORT = process.env.PORT || 3000;
 
 // initialize express
 const app = express();
@@ -42,11 +42,20 @@ app.use(express.json());
 // make the public folder static
 app.use('/public', express.static(path.join(__dirname + "/public")));
 
-// connect to the mongo DB
+// local connect to the mongo DB
 // deplyed version: using local version for testing app
-mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
+/* mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
 const MONGOOSE_URI = process.env.MONGOOSE_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGOOSE_URI);
+ */
+mongoose.Promise = global.Promise;
+mongoose.connect(
+  
+    process.env.MONGOD_URI
+  
+);
+
+
 
 // start the server
 app.listen(PORT, function () {
