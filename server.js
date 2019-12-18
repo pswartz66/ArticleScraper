@@ -46,8 +46,8 @@ app.use('/public', express.static(path.join(__dirname + "/public")));
 // deplyed version: using local version for testing app
 /* mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
 const MONGOOSE_URI = process.env.MONGOOSE_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.connect(MONGOOSE_URI);
- */
+mongoose.connect(MONGOOSE_URI); */
+
 mongoose.Promise = global.Promise;
 mongoose.connect(
   
