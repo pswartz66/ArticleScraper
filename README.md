@@ -4,7 +4,7 @@
 
 This application is a web app that lets users view and leave comments on the latest sports news. As the name suggests this is done via webscraping.
 
-### Check the deployed version here: https://sportarticlescraper.herokuapp.com/
+### Check out the deployed version here: https://sportarticlescraper.herokuapp.com/
 
 ### Dependencies
 The app uses:
